@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个横排MP3播放器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        dark: '#1e293b',
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .audio-player {
+                @apply bg-white rounded-lg shadow-md p-3 flex items-center gap-4 transition-all duration-300 hover:shadow-lg;
+            }
+            .play-btn {
+                @apply w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-primary/80;
+            }
+            .progress-bar {
+                @apply flex-1 h-2 bg-gray-200 rounded-full overflow-hidden cursor-pointer;
+            }
+            .progress {
+                @apply h-full bg-secondary transition-all duration-100;
+            }
+            .time-display {
+                @apply text-sm text-gray-600 w-16 text-right;
+            }
+            .volume-control {
+                @apply w-24 hidden md:block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="container mx-auto">
+        <h1 class="text-2xl font-bold text-center mb-8 text-dark">多首音乐播放器</h1>
+        
+        <!-- 播放器容器 - 横排布局，响应式调整 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- 播放器 1 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+            <!-- 播放器 2 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">洗衣舞曲典藏版 2</h3>
+                    <p class="text-sm text-gray-500">原唱：洗衣舞曲 </p>
+                    <p class="text-sm text-gray-500">翻唱：(典藏版) </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/洗衣舞曲(典藏版).mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+            <!-- 播放器 3 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+            <!-- 播放器 4 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+            <!-- 播放器 5 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+            <!-- 播放器 6 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+<!-- 播放器 5 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+<!-- 播放器 5 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+<!-- 播放器 5 -->
+            <div class="audio-player">
+                <div class="play-btn" onclick="togglePlay(this)">
+                    <i class="fa fa-play"></i>
+                </div>
+                <div class="song-info">
+                    <h3 class="font-medium">你来了一阵子 1</h3>
+                    <p class="text-sm text-gray-500">原唱：王超然 </p>
+                    <p class="text-sm text-gray-500">翻唱：王超然 </p>
+                </div>
+                <div class="progress-bar" onclick="setProgress(this, event)">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-display">0:00 / 0:00</div>
+                <audio class="hidden" src="music/你来了一阵子.mp3" ontimeupdate="updateProgress(this)" onloadedmetadata="setDuration(this)"></audio>
+                <div class="volume-control">
+                    <input type="range" min="0" max="1" step="0.05" value="1" class="w-full accent-primary" onchange="setVolume(this)">
+                </div>
+            </div>
+
+    <script>
+        // 播放/暂停切换
+        function togglePlay(button) {
+            const player = button.closest('.audio-player');
+            const audio = player.querySelector('audio');
+            const icon = button.querySelector('i');
+            
+            if (audio.paused) {
+                audio.play();
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                button.classList.add('bg-secondary');
+                button.classList.remove('bg-primary');
+            } else {
+                audio.pause();
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+                button.classList.remove('bg-secondary');
+                button.classList.add('bg-primary');
+            }
+        }
+
+        // 更新进度条和时间显示
+        function updateProgress(audio) {
+            const player = audio.closest('.audio-player');
+            const progressBar = player.querySelector('.progress');
+            const timeDisplay = player.querySelector('.time-display');
+            
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percent + '%';
+            
+            const currentTime = formatTime(audio.currentTime);
+            const duration = formatTime(audio.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        // 设置音频总时长
+        function setDuration(audio) {
+            const player = audio.closest('.audio-player');
+            const timeDisplay = player.querySelector('.time-display');
+            const duration = formatTime(audio.duration);
+            timeDisplay.textContent = `0:00 / ${duration}`;
+        }
+
+        // 格式化时间（秒 -> 分:秒）
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' + secs : secs}`;
+        }
+
+        // 设置播放进度
+        function setProgress(progressBar, event) {
+            const player = progressBar.closest('.audio-player');
+            const audio = player.querySelector('audio');
+            const rect = progressBar.getBoundingClientRect();
+            const pos = (event.clientX - rect.left) / rect.width;
+            audio.currentTime = pos * audio.duration;
+        }
+
+        // 设置音量
+        function setVolume(volumeSlider) {
+            const player = volumeSlider.closest('.audio-player');
+            const audio = player.querySelector('audio');
+            audio.volume = volumeSlider.value;
+        }
+    </script>
+</body>
+</html>
